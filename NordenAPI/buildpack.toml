@@ -1,0 +1,16 @@
+[buildpack]
+name = "NordenAPI"
+version = "1.0.0"
+
+[phases.setup]
+nixPkgs = ["dotnet-sdk_9"]
+
+[phases.build]
+cmds = [
+    "dotnet restore",
+    "dotnet build -c Release",
+    "dotnet publish -c Release -o ./publish"
+]
+
+[start]
+cmd = "dotnet ./publish/NordenAPI.dll"
