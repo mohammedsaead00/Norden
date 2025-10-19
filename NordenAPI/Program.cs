@@ -65,20 +65,15 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "Norden Luxury E-Commerce API",
+        Title = "Norden API",
         Version = "v1",
-        Description = "API for Norden luxury e-commerce platform",
-        Contact = new OpenApiContact
-        {
-            Name = "Ali Abou Ali",
-            Email = "aliabouali2005@gmail.com"
-        }
+        Description = "Norden E-commerce API"
     });
 
-    // Add JWT Authentication to Swagger
+    // Add JWT authentication to Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token.",
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
