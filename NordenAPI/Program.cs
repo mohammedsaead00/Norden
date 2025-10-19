@@ -1,63 +1,41 @@
-// Database removed temporarily to fix crash
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
-builder.Services.AddControllers();
+// Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
-
-// Database temporarily disabled to fix crash
-// Will be re-enabled when PostgreSQL is properly configured
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "Norden API",
-        Version = "v1",
-        Description = "Simple Norden API"
-    });
-});
-
-// Add CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "NordenAPI", Version = "v1" });
 });
 
 var app = builder.Build();
 
-// Database migration disabled temporarily
-
-// Configure the HTTP request pipeline
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Norden API v1");
-        c.RoutePrefix = string.Empty; // Swagger at root
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "NordenAPI v1");
+        c.RoutePrefix = "swagger"; // Swagger at /swagger
     });
 }
 
-app.UseCors("AllowAll");
+app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
-app.MapControllers();
+// Simple CORS policy for development
+app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 // Simple endpoints
-app.MapGet("/", () => "NordenAPI is running! Using Mock Data");
+app.MapGet("/", () => "NordenAPI is running!");
 app.MapGet("/health", () => "Healthy");
-app.MapGet("/api/test", () => new { 
-    message = "API is working!", 
-    timestamp = DateTime.UtcNow,
-    database = "Mock Data (Database will be added later)"
-});
+app.MapGet("/api/test", () => new { message = "API is working!", timestamp = DateTime.UtcNow });
 
 // Products API
 app.MapGet("/api/products", () => new {
