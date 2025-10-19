@@ -123,4 +123,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Add simple health check endpoint
+app.MapGet("/", () => "NordenAPI is running!");
+app.MapGet("/health", () => "Healthy");
+
 app.Run();

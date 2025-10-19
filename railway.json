@@ -3,7 +3,6 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "chmod +x start.sh && ./start.sh",
-    "healthcheckPath": "/"
+    "startCommand": "chmod +x start.sh && ./start.sh"
   }
 }
