@@ -1,8 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using NordenAPI.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// Add Entity Framework
+builder.Services.AddDbContext<NordenDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -449,6 +456,8 @@ app.MapPost("/api/products/{id}/reviews", (CreateReviewRequest request) => {
     });
 });
 
+app.Run();
+
 // DTOs
 public record RegisterRequest(string Email, string Password, string Name);
 public record LoginRequest(string Email, string Password);
@@ -457,5 +466,3 @@ public record CreateOrderRequest(OrderItem[] Items);
 public record OrderItem(int ProductId, string ProductName, decimal Price, int Quantity, string Image);
 public record AddToWishlistRequest(int ProductId);
 public record CreateReviewRequest(int ProductId, int Rating, string Comment);
-
-app.Run();
