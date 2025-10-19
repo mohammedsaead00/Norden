@@ -4,16 +4,6 @@
   },
   "deploy": {
     "startCommand": "chmod +x start.sh && ./start.sh",
-    "healthcheckPath": "/",
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
-  },
-  "environments": {
-    "production": {
-      "variables": {
-        "DOTNET_VERSION": "9.0.0",
-        "ASPNETCORE_ENVIRONMENT": "Production"
-      }
-    }
+    "healthcheckPath": "/"
   }
 }
