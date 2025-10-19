@@ -1,4 +1,0 @@
-C:\Users\hp\Desktop\New folder\ClothingStoreAPI\bin\Debug\net9.0\ClothingStoreAPI.exe
-C:\Users\hp\Desktop\New folder\ClothingStoreAPI\bin\Debug\net9.0\ClothingStoreAPI.dll
-C:\Users\hp\Desktop\New folder\ClothingStoreAPI\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
-C:\Users\hp\Desktop\New folder\ClothingStoreAPI\bin\Debug\net9.0\Microsoft.OpenApi.dll

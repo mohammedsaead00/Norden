@@ -1,0 +1,9 @@
+C:\Users\hp\Desktop\New folder\NordenAPI\obj\Release\net9.0\NordenAPI.csproj.AssemblyReference.cache
+C:\Users\hp\Desktop\New folder\NordenAPI\obj\Release\net9.0\rpswa.dswa.cache.json
+C:\Users\hp\Desktop\New folder\NordenAPI\obj\Release\net9.0\NordenAPI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hp\Desktop\New folder\NordenAPI\obj\Release\net9.0\NordenAPI.AssemblyInfoInputs.cache
+C:\Users\hp\Desktop\New folder\NordenAPI\obj\Release\net9.0\NordenAPI.AssemblyInfo.cs
+C:\Users\hp\Desktop\New folder\NordenAPI\obj\Release\net9.0\NordenAPI.csproj.CoreCompileInputs.cache
+C:\Users\hp\Desktop\New folder\NordenAPI\obj\Release\net9.0\NordenAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\hp\Desktop\New folder\NordenAPI\obj\Release\net9.0\NordenAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\hp\Desktop\New folder\NordenAPI\obj\Release\net9.0\NordenAPI.sourcelink.json

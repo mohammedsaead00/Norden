@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NordenAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d04199bbaf152dfef880d76ff9fb4aa12be78d1d")]
 [assembly: System.Reflection.AssemblyProductAttribute("NordenAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NordenAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
