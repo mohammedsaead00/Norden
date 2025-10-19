@@ -8,18 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// Add Entity Framework
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-    ?? Environment.GetEnvironmentVariable("DATABASE_URL");
-
-if (string.IsNullOrEmpty(connectionString))
+// Add Entity Framework (only if DATABASE_URL is available)
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+if (!string.IsNullOrEmpty(connectionString))
 {
-    // Fallback for development without database
-    connectionString = "Host=localhost;Database=NordenDB;Username=postgres;Password=password";
+    builder.Services.AddDbContext<NordenDbContext>(options =>
+        options.UseNpgsql(connectionString));
 }
-
-builder.Services.AddDbContext<NordenDbContext>(options =>
-    options.UseNpgsql(connectionString));
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -43,20 +38,23 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Apply database migrations
-using (var scope = app.Services.CreateScope())
+// Apply database migrations (only if DbContext is registered)
+try
 {
-    var context = scope.ServiceProvider.GetRequiredService<NordenDbContext>();
-    try
+    using (var scope = app.Services.CreateScope())
     {
-        context.Database.Migrate();
+        var context = scope.ServiceProvider.GetService<NordenDbContext>();
+        if (context != null)
+        {
+            context.Database.Migrate();
+        }
     }
-    catch (Exception ex)
-    {
-        // Log the error but don't crash the app
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogWarning($"Database migration failed: {ex.Message}");
-    }
+}
+catch (Exception ex)
+{
+    // Log the error but don't crash the app
+    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    logger.LogWarning($"Database migration skipped: {ex.Message}");
 }
 
 // Configure the HTTP request pipeline
@@ -77,9 +75,16 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Simple endpoints
-app.MapGet("/", () => "NordenAPI is running!");
+app.MapGet("/", () => {
+    var hasDatabase = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DATABASE_URL"));
+    return $"NordenAPI is running! Database: {(hasDatabase ? "Connected" : "Mock Data")}";
+});
 app.MapGet("/health", () => "Healthy");
-app.MapGet("/api/test", () => new { message = "API is working!", timestamp = DateTime.UtcNow });
+app.MapGet("/api/test", () => new { 
+    message = "API is working!", 
+    timestamp = DateTime.UtcNow,
+    database = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DATABASE_URL")) ? "Connected" : "Mock Data"
+});
 
 // Products API
 app.MapGet("/api/products", () => new {
