@@ -1,6 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using NordenAPI.Data;
+// Database removed temporarily to fix crash
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,13 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// Add Entity Framework (only if DATABASE_URL is available)
-var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
-if (!string.IsNullOrEmpty(connectionString))
-{
-    builder.Services.AddDbContext<NordenDbContext>(options =>
-        options.UseNpgsql(connectionString));
-}
+// Database temporarily disabled to fix crash
+// Will be re-enabled when PostgreSQL is properly configured
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -38,24 +31,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Apply database migrations (only if DbContext is registered)
-try
-{
-    using (var scope = app.Services.CreateScope())
-    {
-        var context = scope.ServiceProvider.GetService<NordenDbContext>();
-        if (context != null)
-        {
-            context.Database.Migrate();
-        }
-    }
-}
-catch (Exception ex)
-{
-    // Log the error but don't crash the app
-    var logger = app.Services.GetRequiredService<ILogger<Program>>();
-    logger.LogWarning($"Database migration skipped: {ex.Message}");
-}
+// Database migration disabled temporarily
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
@@ -75,15 +51,12 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Simple endpoints
-app.MapGet("/", () => {
-    var hasDatabase = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DATABASE_URL"));
-    return $"NordenAPI is running! Database: {(hasDatabase ? "Connected" : "Mock Data")}";
-});
+app.MapGet("/", () => "NordenAPI is running! Using Mock Data");
 app.MapGet("/health", () => "Healthy");
 app.MapGet("/api/test", () => new { 
     message = "API is working!", 
     timestamp = DateTime.UtcNow,
-    database = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DATABASE_URL")) ? "Connected" : "Mock Data"
+    database = "Mock Data (Database will be added later)"
 });
 
 // Products API
