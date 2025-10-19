@@ -1,4 +1,5 @@
 #!/bin/bash
+cd NordenAPI
 dotnet restore
 dotnet build -c Release
 dotnet publish -c Release -o ./publish
