@@ -68,6 +68,11 @@ if (!app.Environment.IsDevelopment())
 // Simple CORS policy for development
 app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
+// Redirect common paths to root Swagger UI
+app.MapGet("/index.html", () => Results.Redirect("/", false));
+app.MapGet("/swagger", () => Results.Redirect("/", false));
+app.MapGet("/swagger/index.html", () => Results.Redirect("/", false));
+
 // Simple endpoints (moved root to Swagger UI). Keep a secondary health root if needed
 app.MapGet("/health", () => "Healthy");
 app.MapGet("/api/test", () => new { message = "API is working!", timestamp = DateTime.UtcNow });
