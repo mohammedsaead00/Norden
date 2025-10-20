@@ -32,6 +32,9 @@ builder.Services.AddSwaggerGen(c =>
     }
 });
 
+// Register CORS services so middleware can resolve ICorsService
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
