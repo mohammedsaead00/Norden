@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Text.Json;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,10 +36,20 @@ builder.Services.AddSwaggerGen(c =>
 // Register CORS services so middleware can resolve ICorsService
 builder.Services.AddCors();
 
+// Respect proxy headers from Railway (X-Forwarded-For, X-Forwarded-Proto)
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.RequireHeaderSymmetry = false;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 // Enable Swagger in all environments for Railway deployment
+app.UseForwardedHeaders();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
