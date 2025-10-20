@@ -54,9 +54,9 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "NordenAPI v1");
-    c.RoutePrefix = "swagger"; // Swagger at /swagger
+    c.RoutePrefix = string.Empty; // Serve Swagger UI at /
     c.DocumentTitle = "NordenAPI Documentation";
-    c.DefaultModelsExpandDepth(-1); // Hide schemas section
+    c.DefaultModelsExpandDepth(-1);
 });
 
 // Only redirect to HTTPS in production
@@ -68,8 +68,7 @@ if (!app.Environment.IsDevelopment())
 // Simple CORS policy for development
 app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
-// Simple endpoints
-app.MapGet("/", () => "NordenAPI is running!");
+// Simple endpoints (moved root to Swagger UI). Keep a secondary health root if needed
 app.MapGet("/health", () => "Healthy");
 app.MapGet("/api/test", () => new { message = "API is working!", timestamp = DateTime.UtcNow });
 
