@@ -11,23 +11,45 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "NordenAPI", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    { 
+        Title = "NordenAPI", 
+        Version = "v1",
+        Description = "A comprehensive e-commerce API for luxury fashion items",
+        Contact = new OpenApiContact
+        {
+            Name = "NordenAPI Support",
+            Email = "support@nordenapi.com"
+        }
+    });
+    
+    // Include XML comments if available
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        c.IncludeXmlComments(xmlPath);
+    }
 });
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Enable Swagger in all environments for Railway deployment
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "NordenAPI v1");
-        c.RoutePrefix = "swagger"; // Swagger at /swagger
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "NordenAPI v1");
+    c.RoutePrefix = "swagger"; // Swagger at /swagger
+    c.DocumentTitle = "NordenAPI Documentation";
+    c.DefaultModelsExpandDepth(-1); // Hide schemas section
+});
 
-app.UseHttpsRedirection();
+// Only redirect to HTTPS in production
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 // Simple CORS policy for development
 app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
