@@ -1,0 +1,61 @@
+## .NET Core
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## Build results
+*.user
+*.suo
+*.userprefs
+
+## NuGet
+.nuget/
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Publish output
+publish/
+NordenAPI_Deploy.zip
+
+## Temporary test and debug files
+out.txt
+out_utf8.txt
+error_log.txt
+error_log_utf8.txt
+*.http.env.json
+
+## User secrets
+secrets.json
+appsettings.Development.json
+
+## VS Code
+.vscode/
+.vs/
+
+## Visual Studio
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.VC.opendb
+
+## Rider
+.idea/
+
+## OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+## Entity Framework migrations temp
+*.mdf
+*.ldf
+
+## Data folder (local only)
+Data/
