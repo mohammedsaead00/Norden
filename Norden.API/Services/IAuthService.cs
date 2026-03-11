@@ -6,6 +6,7 @@ namespace Norden.API.Services
     {
         Task<AuthResponse> RegisterAsync(RegisterRequest request);
         Task<AuthResponse> LoginAsync(LoginRequest request);
+        Task<AuthResponse> LoginWithGoogleAsync(string idToken);
         Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest request);
         Task<bool> ForgotPasswordAsync(ForgotPasswordRequest request);
         Task<bool> ValidateTokenAsync(string token);

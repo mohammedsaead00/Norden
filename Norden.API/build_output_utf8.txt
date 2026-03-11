@@ -1,0 +1,15 @@
+﻿  Determining projects to restore...
+  All projects are up-to-date for restore.
+F:\Norden\Norden.API\Program.cs(7,7): warning CS0105: The using directive for 'Norden.API.Data' appeared previously in this namespace [F:\Norden\Norden.API\Norden.API.csproj]
+F:\Norden\Norden.API\Services\AuthService.cs(10,7): warning CS0105: The using directive for 'System.Text' appeared previously in this namespace [F:\Norden\Norden.API\Norden.API.csproj]
+F:\Norden\Norden.API\Services\AuthService.cs(15,32): error CS0535: 'AuthService' does not implement interface member 'IAuthService.LoginWithGoogleAsync(string)' [F:\Norden\Norden.API\Norden.API.csproj]
+
+Build FAILED.
+
+F:\Norden\Norden.API\Program.cs(7,7): warning CS0105: The using directive for 'Norden.API.Data' appeared previously in this namespace [F:\Norden\Norden.API\Norden.API.csproj]
+F:\Norden\Norden.API\Services\AuthService.cs(10,7): warning CS0105: The using directive for 'System.Text' appeared previously in this namespace [F:\Norden\Norden.API\Norden.API.csproj]
+F:\Norden\Norden.API\Services\AuthService.cs(15,32): error CS0535: 'AuthService' does not implement interface member 'IAuthService.LoginWithGoogleAsync(string)' [F:\Norden\Norden.API\Norden.API.csproj]
+    2 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:02.17

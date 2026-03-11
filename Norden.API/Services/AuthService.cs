@@ -7,8 +7,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text;
 using BCrypt.Net;
-
+using Google.Apis.Auth;
 namespace Norden.API.Services
 {
     public class AuthService : IAuthService
@@ -116,6 +117,91 @@ namespace Norden.API.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error during user login");
+                throw;
+            }
+        }
+
+        public async Task<AuthResponse> LoginWithGoogleAsync(string idToken)
+        {
+            try
+            {
+                var settings = new GoogleJsonWebSignature.ValidationSettings
+                {
+                    Audience = new[] { _configuration["Authentication:Google:ClientId"] }
+                };
+
+                // Validate the token and get the payload from Google
+                var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, settings);
+
+                if (payload == null)
+                {
+                    throw new UnauthorizedAccessException("Invalid Google token");
+                }
+
+                // Check if user already exists based on GoogleId or Email
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.GoogleId == payload.Subject || u.Email == payload.Email);
+
+                if (user == null)
+                {
+                    // Create new user if they don't exist
+                    user = new User
+                    {
+                        Email = payload.Email,
+                        Name = payload.Name,
+                        GoogleId = payload.Subject,
+                        AvatarUrl = payload.Picture,
+                        IsEmailVerified = payload.EmailVerified,
+                        IsActive = true,
+                        CreatedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow,
+                        Cart = new Cart()
+                    };
+
+                    _context.Users.Add(user);
+                }
+                else
+                {
+                    // Update user info if they logged in with Google but existed via Email previously
+                    if (string.IsNullOrEmpty(user.GoogleId))
+                    {
+                        user.GoogleId = payload.Subject;
+                    }
+                    if (string.IsNullOrEmpty(user.AvatarUrl))
+                    {
+                        user.AvatarUrl = payload.Picture;
+                    }
+                    user.IsEmailVerified = payload.EmailVerified;
+                }
+
+                // Generate our API tokens
+                var token = GenerateJwtToken(user);
+                var refreshToken = GenerateRefreshToken();
+
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+                user.UpdatedAt = DateTime.UtcNow;
+
+                await _context.SaveChangesAsync();
+
+                return new AuthResponse
+                {
+                    UserId = user.Id.ToString(),
+                    Email = user.Email,
+                    Name = user.Name,
+                    AvatarUrl = user.AvatarUrl,
+                    IsAdmin = user.IsAdmin,
+                    Token = token,
+                    RefreshToken = refreshToken
+                };
+            }
+            catch (InvalidJwtException)
+            {
+                _logger.LogWarning("Invalid Google token presented");
+                throw new UnauthorizedAccessException("Invalid Google token signature");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during Google login");
                 throw;
             }
         }

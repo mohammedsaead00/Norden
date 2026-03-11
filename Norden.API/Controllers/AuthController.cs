@@ -66,6 +66,30 @@ namespace Norden.API.Controllers
             }
         }
 
+        [HttpPost("google")]
+        public async Task<ActionResult<ApiResponse<AuthResponse>>> GoogleLogin([FromBody] GoogleAuthRequest request)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ApiResponse<AuthResponse>.ErrorResult("Invalid input data", "VALIDATION_ERROR", ModelState));
+                }
+
+                var result = await _authService.LoginWithGoogleAsync(request.IdToken);
+                return Ok(ApiResponse<AuthResponse>.SuccessResult(result, "Google login successful"));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(ApiResponse<AuthResponse>.ErrorResult(ex.Message, "INVALID_GOOGLE_TOKEN"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error during Google login");
+                return StatusCode(500, ApiResponse<AuthResponse>.ErrorResult("Internal server error", "INTERNAL_ERROR"));
+            }
+        }
+
         [HttpPost("refresh-token")]
         public async Task<ActionResult<ApiResponse<TokenResponse>>> RefreshToken(RefreshTokenRequest request)
         {

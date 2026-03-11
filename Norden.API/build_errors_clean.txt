@@ -1,0 +1,8 @@
+﻿F:\Norden\Norden.API\Controllers\ReviewsController.cs(60,34): error CS0019: Operator '>' cannot be applied to operands of type 'method group' and 'int' [F:\Norden\Norden.API\Norden.API.csproj]
+F:\Norden\Norden.API\AppDbContext.cs(244,38): error CS1061: 'Order' does not contain a definition for 'OrderTrackings' and no accessible extension method 'OrderTrackings' accepting a first argument of type 'Order' could be found (are you missing a using directive or an assembly reference?) [F:\Norden\Norden.API\Norden.API.csproj]
+
+Build FAILED.
+    12 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:02.65

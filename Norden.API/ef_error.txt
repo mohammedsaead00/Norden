@@ -1,0 +1,71 @@
+﻿Build started...
+Build succeeded.
+dotnet : You must 
+install or update 
+.NET to run this 
+application.
+At line:1 char:1
++ dotnet ef 
+migrations add UpdateD
+atabaseSchemaToNordenS
+pec 2>&1 | Out- ...
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: (You must i   
+ nstal...is applic    
+ation.:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+
+App: C:\Users\moham\.n
+uget\packages\dotnet-e
+f\9.0.2\tools\net8.0\a
+ny\tools\netcoreapp2.0
+\any\ef.dll
+Architecture: x64
+Framework: 'Microsoft.
+NETCore.App', version 
+'9.0.0' (x64)
+.NET location: 
+C:\Program 
+Files\dotnet\
+
+The following 
+frameworks were found:
+  6.0.36 at 
+[C:\Program Files\dotn
+et\shared\Microsoft.NE
+TCore.App]
+  10.0.0 at 
+[C:\Program Files\dotn
+et\shared\Microsoft.NE
+TCore.App]
+
+The following 
+frameworks for other 
+architectures were 
+found:
+  x86
+    10.0.0 at 
+[C:\Program Files (x86
+)\dotnet\shared\Micros
+oft.NETCore.App]
+
+Learn more:
+https://aka.ms/dotnet/
+app-launch-failed
+
+To install missing 
+framework, download:
+https://aka.ms/dotnet-
+core-applaunch?framewo
+rk=Microsoft.NETCore.A
+pp&framework_version=9
+.0.0&arch=x64&rid=win-
+x64&os=win10
