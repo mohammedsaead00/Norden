@@ -26,7 +26,15 @@ Content-Type: application/json
   "password": "User123!"
 }
 
-### 4. Get Products
+### 4. Google Login
+POST {{baseUrl}}/api/auth/google
+Content-Type: application/json
+
+{
+  "idToken": "PUT_YOUR_GOOGLE_ID_TOKEN_HERE"
+}
+
+### 5. Get Products
 GET {{baseUrl}}/api/products?page=1&limit=10
 
 ### 5. Get Product by ID
